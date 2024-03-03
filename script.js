@@ -59,7 +59,7 @@ function generateFolderStructure(rootFolder = 'Root', depth = 3, maxChildren = 4
             return [];
         }
 
-        const numChildren = Math.floor(Math.random() * maxChildren);
+        const numChildren = Math.floor(Math.random() * maxChildren + 1);
         const children = Array.from({ length: numChildren }, (_, index) => {
             const childName = `${folder} > ${generateRandomString(6, true)}`;
             const child = {
@@ -86,7 +86,7 @@ function generateFolderStructure(rootFolder = 'Root', depth = 3, maxChildren = 4
 
 
 const   folderStructure = document.querySelector('.folder_structure'),
-        folders = generateFolderStructure('Root', 4, 6),
+        folders = generateFolderStructure('Root', 10, 8),
         folderPath = document.querySelector('.folder_path'),
         childrenFolders = document.querySelector('.children_folders'),
         folderNames = document.querySelector('.folders-names'),
@@ -104,19 +104,10 @@ function createFolderView(data, parentElement){
         const folderName = document.createElement('span');
         folderName.style.display = 'inline-block';
 
-        const openArrow = document.createElement('i');
-        openArrow.className = 'open_arrow';
-        openArrow.style.transform = 'rotateZ(0deg)';
+        const   openArrow = document.createElement('i');
+                openArrow.className = 'open_arrow';
+                openArrow.style.transform = 'rotateZ(90deg)';
 
-        const icon = document.createElement('div');
-        icon.className = 'icon';
-        icon.style.backgroundImage = 'url("./src/img/yellow-folder.svg")';
-
-        
-        if(child.type === 'dir'){
-            folderName.appendChild(openArrow);
-            folderName.appendChild(icon)
-        }
 
         if(child?.children?.length < 1){
             openArrow.style.pointerEvents = 'none';
@@ -125,7 +116,20 @@ function createFolderView(data, parentElement){
         }
 
         folderName.innerHTML += child?.name.split('>').pop() + ((child.type === 'dir') ? '' : `.${child.type}`);
-        folderName.className = 'folder';
+        folderName.classList.add('folder');
+
+        switch(child.type){
+            case 'dir':
+                folderName.appendChild(openArrow);
+                folderName.classList.add('smallDir');
+                break;
+            case 'png':
+                folderName.classList.add('smallPng');
+                break;
+            case 'mp3':
+                folderName.classList.add('smallMp3');
+                break;
+        }
 
         folderName.addEventListener('dblclick', (e) => {
 
@@ -150,20 +154,13 @@ function createFolderView(data, parentElement){
                 span.textContent = name + " > ";
                 folderPath.appendChild(span)
  
-                // let a;
+                span.addEventListener('click', (e) => {
+                    console.log(e.target.textContent)
+                    console.log(child.name)
 
-                // span.addEventListener('click', (e) => {
-                //     structureContainer.innerHTML = '';
-                //     // const newSpan = span.textContent.replace(/\s*>\s*/g, ''); 
-                //     a = children;
-                //     console.log(e.target)
-                //     console.log(a)
-                //     // children.forEach(el => {
-                //     //     const li = document.createElement('li');
-                //     //     li.textContent = el.name;
-                //     //     structureContainer.appendChild(li);
-                //     // })   
-                // })
+                    console.log(e.target.textContent.includes(child.name))
+                })
+                
             })
 
             structureContainer.innerHTML = '';
@@ -226,8 +223,10 @@ function createFolderView(data, parentElement){
             const sublist = li.querySelector('ul'),
                 arrow = li.querySelector('i');
             
-            if(!sublist?.style){
-                sublist.style.display = 'none'
+            console.log(sublist?.style.display)
+
+            if(!sublist?.style.display){
+                sublist.style.display = 'block'
             }
 
             if(sublist){
@@ -250,20 +249,28 @@ createBtn.addEventListener('click', (e) => {
 });
 
 
+let timeoutId;
+
+folderStructure.addEventListener('scroll', (e) => {
+
+    if(timeoutId){
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
+
+    const parent = e.target.closest('.folder_structure')
 
 
+    if(parent){
+        parent.style.scrollbarWidth = 'auto';
 
+        timeoutId = setTimeout(() => {
+            parent.style.scrollbarWidth = 'none';
+        }, 1500)
+    }
+})
 
-// обработать двойной клик по папке, вывовдить в main полный путь к папке, присвоить класс
-// вывести все вложенные в нее папки
-
-
-
-
-// Рабочие хлебные крошки - написать функцию, которая находит папку по полному адресу и возвращает все дочерние элементы
-// Разделить файлы и папки на 2 контейнера (1 папка по ширине минимум как 2 файла)
-// Для папки выводить количество элементов (дочерних item/s)
-// Выделения активной папки в списке
-
-// Иконки в списке папок и файлов
-// Привести дизайн к референсу
+// хлебные крошки
+// активная папка
+// стилизация
+// переход по папкам в main

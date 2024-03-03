@@ -124,12 +124,37 @@ body{
 
 ul{
     list-style-type: none;
-    padding-left: 1em;
+    /* padding-left: 1em; */
+
+    width: 100%;
 }
 
 ul ul{
-    margin-left: 1em;
-    display: none;
+    padding-left: 2em;
+    /* padding-left: 2em; */
+    /* display: none; */
+
+    display: block;
+
+    width: 100%;
+    /* overflow: hidden; */
+
+    box-sizing: border-box;
+
+    position: relative;
+}
+
+ul ul::before{
+    position: absolute;
+    top: 0;
+    left: 10px;
+
+    height: 100%;
+    width: 1px;
+
+    content: "";
+
+    background-color: #b5b5b5;
 }
 
 ul li{
@@ -150,15 +175,33 @@ ul li{
 
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* overflow: hidden; */
+    overflow: hidden;
 
-    width: fit-content;
-    height: 20px;
-    text-align: right;
+    /* width: 100%; */
+    height: fit-content;
+    /* text-align: left; */
 
-    background-repeat: no-repeat;
+    box-sizing: border-box;
+    padding-left: 5px;
+
+    /* background-repeat: no-repeat; */
 
     position: relative;
+
+    padding: 4px 0;
+    padding-left: 32px;
+
+    transition: all .2s ease-in;
+
+    border-radius: 6px;
+}
+
+.folder:hover{
+    background-color: #e7e7e79d;
+}
+
+.folder.smallDir{
+    padding-right: 26px;
 }
 
 .folder:hover{
@@ -175,22 +218,52 @@ ul li{
     gap: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+
+    background-color: #F9FAFB;
+
+    height: calc(100% - 60px);
+    box-sizing: border-box;
+    width: calc(100% - 8px);
+
+
+}
+
+.folder_structure::-webkit-scrollbar{
+    width: 6px;
+}
+
+.folder_structure::-webkit-scrollbar-track{
+    background: rgba(255, 255, 255, 0);
+}
+
+.folder_structure::-webkit-scrollbar-thumb{
+    background-color: #4876F9;
+    border-radius: 4px;
+
+    transition: all .1s ease-in-out;
+}
+
+.folder_structure::-webkit-scrollbar-thumb:hover{
+    background-color: rgb(102, 139, 242);
+    cursor: grab;
 }
 
 .open_arrow{
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
 
     background-image: url("../img/arrow_right.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
 
+    /* background-color: #F9FAFB; */
+
     display: inline-block;
 
     position: absolute;
-    right: -20px;
-    top: calc(50% - 6px);
+    right: 6px;
+    top: calc(50% - 7px);
 }
 
 .folders-names{
@@ -368,7 +441,7 @@ ul li{
 
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    column-gap: 10px;
+    column-gap: 30px;
 }
 
 .files_structure li{
@@ -411,18 +484,56 @@ ul li{
     background-repeat: no-repeat;
 }
 
-.icon{
-    width: 15px;
-    height: 15px;
+/*.smallDir, .smallMp3, .smallPng{
+    width: 20px;
+    height: 20px;
 
     background-repeat: no-repeat;
     background-size: contain;
 
     position: absolute;
     left: -21px;
-    top: 3px;
+    top: 0px;
+}
+
+.folder_bg{
+    width: 44px;
+    height: 44px;
+
+    background-image: url('../img/folder.svg');
+    background-size: 44px;
+    background-repeat: no-repeat;
 }
 
 .active{
     
+} */
+
+.folder::before{
+    width: 20px;
+    height: 20px;
+
+    content: "";
+
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 6px;
+
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    pointer-events: none;
+}
+
+.folder.smallDir::before{
+    background-image: url('../img/folder.svg');
+}
+
+.folder.smallPng::before{
+    background-image: url('../img/png.svg');
+}
+
+.folder.smallMp3::before{
+    background-image: url('../img/mp3.svg');
 }
