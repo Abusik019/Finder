@@ -86,7 +86,7 @@ function generateFolderStructure(rootFolder = 'Root', depth = 3, maxChildren = 4
 
 
 const   folderStructure = document.querySelector('.folder_structure'),
-        folders = generateFolderStructure('Root', 10, 8),
+        folders = generateFolderStructure('Root', 9, 7),
         folderPath = document.querySelector('.folder_path'),
         childrenFolders = document.querySelector('.children_folders'),
         folderNames = document.querySelector('.folders-names'),
